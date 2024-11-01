@@ -16,10 +16,11 @@ afterEach(async () => {
   await User.deleteMany({});
 });
 
-afterAll(async () => {
-  await mongoose.disconnect();
-  await mongoServer.stop();
-});
+afterAll(done => {
+  // Closing the DB connection allows Jest to exit successfully.
+  mongoose.connection.close()
+  done()
+})
 
 describe('User Controller Tests', () => {
   it('should register a new user', async () => {
